@@ -1,20 +1,31 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { useCart } from "../cart/CartProvider";
+import { Link, useParams } from "react-router-dom";
 
 const ProductDetails = () => {
-  const product = {
-    id: 1,
-    name: "Graham's Manihot",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non dui in risus pretium vulputate non id velit. Sed luctus sem sem, nec rutrum orci molestie et. Vivamus vitae est egestas, venenatis mauris ac, mollis sapien. Nulla ullamcorper sollicitudin vestibulum. Maecenas at massa sapien. Aliquam tincidunt lobortis mi a tristique. Morbi eu aliquet massa. Pellentesque pharetra placerat ante eget volutpat. Aliquam ut quam scelerisque, ultricies sem vel, aliquam est. Nulla at sem sed arcu congue ultrices. Interdum et malesuada fames ac ante ipsum primis in faucibus. ",
-    active: true,
-    available: true,
-    offer: true,
-    price: 88.25,
-    picture: "http://dummyimage.com/1614x948.png/dddddd/000000",
+    const { id } = useParams()
+    
+    const[product, setProduct] = useState({})
+    
+    useEffect(()=>{
+        fetch(`http://localhost:8080/products/${id}`)
+        .then((response)=> response.json())
+        .then(data=>setProduct(data))
+        .catch(error => console.error(error))
+    },[id])
+
+
+  const { cart, dispatch } = useCart();
+
+  const addToCart = () => {
+    dispatch({ type: "ADD_TO_CART", payload: product });
   };
+  if (!product) {
+    return <p>Loading...</p>;
+  }
   return (
     <>
-      <div>Voltar</div>
+      <div><Link to="/" >Voltar</Link></div>
       <div className="flex flex-row h-full max-h-[80%]">
         <div className="w-3/6 flex justify-content-center h-auto">
           <div className="w-5/6 h-5/6 mx-auto mt-12 rounded-3xl overflow-hidden">
@@ -29,6 +40,9 @@ const ProductDetails = () => {
         <div className="flex flex-col mt-12 max-w-[50%]">
           <div className="mt-5">
             <p className="text-2xl">{product.name}</p>
+          </div>
+          <div className="mt-5">
+            <p className=" text-xl text-lime-700">{`R$${product.price}`}</p>
           </div>
           <div className="mt-5">
             <p className=" text-xl text-zinc-400">{product.description}</p>
@@ -49,6 +63,10 @@ const ProductDetails = () => {
               <p>teste</p>
               <p>teste</p>
               <p>teste</p>
+            </div>
+            <div className="flex justify-center mt-16">
+                <button className="bg-lime-600 p-4 w-96 rounded-3xl" onClick={addToCart}><p className="text-base text-white">Adicionar ao carrinho</p></button>
+
             </div>
           </div>
         </div>

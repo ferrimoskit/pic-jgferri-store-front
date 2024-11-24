@@ -1,8 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const ProductItem = ({ id, product }) => {
+const ProductItem = ({ product }) => {
+    console.log(product)
   return (
-    <div
+    <Link to={`/product/${product.id}`}><div
       className={
         "product-item rounded-lg h-96 shadow-black-500/50 shadow-lg min-w-32 mx-2.5 overflow-hidden" +
         (product.active ? " saturate-100" : " saturate-0")
@@ -28,6 +30,7 @@ const ProductItem = ({ id, product }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

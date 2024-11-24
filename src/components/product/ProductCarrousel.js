@@ -14,12 +14,7 @@ const ProductCarrousel = () => {
   };
 
   useEffect(() => {
-    fetch("./productMock.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
+    fetch("http://localhost:8080/products")
       .then((response) => response.json())
       .then((data) => {
         data.sort(function (x, y) {
@@ -40,9 +35,9 @@ const ProductCarrousel = () => {
           spaceBetween={responsive(window.innerWidth) - 5}
           slidesPerView={responsive(window.innerWidth)}
         >
-          {products.map((product) => (
-            <SwiperSlide className="mb-5">
-              <ProductItem key={product.id} product={product} />
+          {products.map(product => (
+            <SwiperSlide className="mb-5" key={product.id}>
+              <ProductItem product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
