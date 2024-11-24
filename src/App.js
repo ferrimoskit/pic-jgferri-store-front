@@ -1,13 +1,12 @@
-import Navbar from "./components/navbar/navbar";
-import Routes from "./Routes";
 
 import "./App.css";
+import Routes from "./Routes";
 
 function App() {
   return (
     <div className="App h-screen">
-      <Navbar />
-      <Routes />
+     
+      <Routes></Routes>
     </div>
   );
 }
