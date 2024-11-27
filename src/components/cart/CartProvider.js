@@ -25,9 +25,9 @@ const cartReducer = (state, action) => {
           : item
       );
 
-      case "CLEAR_CART":
-        localStorage.removeItem("cart"); // Clear from localStorage
-        return [];
+    case "CLEAR_CART":
+      localStorage.removeItem("cart"); // Clear from localStorage
+      return [];
 
     default:
       return state;
@@ -36,7 +36,9 @@ const cartReducer = (state, action) => {
 
 export const CartProvider = ({ children }) => {
   // Initialize cart state from localStorage or use an empty array
-  const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const initialCart = Array.isArray(JSON.parse(localStorage.getItem("cart")))
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [];
   const [cart, dispatch] = useReducer(cartReducer, initialCart);
 
   // Sync cart state to localStorage whenever it changes

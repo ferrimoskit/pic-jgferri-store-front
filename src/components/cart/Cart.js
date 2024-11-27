@@ -1,19 +1,23 @@
 import React from "react";
 import { useCart } from "./CartProvider";
+import ProductCart from "../product/ProductCart";
 
 const Cart = () => {
-  const { cart, dispatch } = useCart();
+  const { cart } = useCart();
 
-  const handleQuantityChange = (id, quantity) => {
-    if (quantity > 0) {
-      dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
-    } else {
-      dispatch({ type: "REMOVE_FROM_CART", payload: id }); 
-    }
-  };
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div>Carrinho</div>
+    <div>
+      {cart.map((item) => (
+        <ProductCart cartItem={item} key={item.id} />
+      ))}
+      <div className="flex flex-row justify-end mr-96 mt-16">
+        <p className="text-3xl pt-2 text-lime-600">Total: R${Math.round((subtotal + Number.EPSILON) * 100) / 100} </p></div>
+    </div>
   );
 };
 
