@@ -6,6 +6,7 @@ import Cart from "./components/cart/Cart";
 import Navbar from "./components/navbar/navbar";
 import Login from "./components/views/Login";
 import Admin from "./components/views/Admin";
+import CreateAccount from "./components/views/CreateAccount";
 const Routes = () => {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ const Routes = () => {
         <Route element={<Cart />} path="/carrinho" />
         <Route element={<Login />} path="/login" />
         <Route element={<Admin />} path="/admin" />
+        <Route element={<CreateAccount />} path="/signup" />
       </ReactRoutes>
     </BrowserRouter>
   );

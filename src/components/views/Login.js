@@ -50,7 +50,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600 transition duration-200"
             onClick={handleLogin}
           >
             Login

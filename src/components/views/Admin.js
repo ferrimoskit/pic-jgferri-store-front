@@ -10,9 +10,10 @@ const Admin = () => {
     active: false,
     available: false,
     offer: false,
-    price: '',
+    price: 0,
     picture: ''
   });
+  const [isCreating, setIsCreating] = useState(false); // To toggle between edit and create mode
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -44,16 +45,37 @@ const Admin = () => {
   };
 
   const handleEdit = (product) => {
+    setIsCreating(false);
     setSelectedProduct(product);
     setFormData(product);
+  };
+
+  const handleCreate = () => {
+    setIsCreating(true);
+    setSelectedProduct(null);
+    setFormData({
+      id: '',
+      name: '',
+      description: '',
+      active: false,
+      available: false,
+      offer: false,
+      price: 0,
+      picture: ''
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/products/${formData.id}`, {
-        method: 'POST',
+      const url = isCreating
+        ? 'http://localhost:8080/products' // POST for creating new product
+        : `http://localhost:8080/products/${formData.id}`; // PUT for updating existing product
+
+      const method = isCreating ? 'POST' : 'PUT';
+      const response = await fetch(url, {
+        method: method,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -61,11 +83,13 @@ const Admin = () => {
         body: JSON.stringify(formData)
       });
 
-      if (!response.ok) throw new Error('Failed to update product');
+      if (!response.ok) throw new Error('Failed to save product');
 
-      alert('Product updated successfully!');
+      alert(isCreating ? 'Product created successfully!' : 'Product updated successfully!');
       setSelectedProduct(null);
+      setIsCreating(false);
 
+      // Refresh the product list
       const refreshedResponse = await fetch('http://localhost:8080/products', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -76,7 +100,7 @@ const Admin = () => {
       const refreshedData = await refreshedResponse.json();
       setProducts(refreshedData);
     } catch (error) {
-      console.error('Error updating product:', error);
+      console.error('Error saving product:', error);
     }
   };
 
@@ -105,9 +129,16 @@ const Admin = () => {
         ))}
       </ul>
 
-      {selectedProduct && (
+      <button
+        onClick={handleCreate}
+        className="mt-6 bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-500 transition"
+      >
+        Criar Novo Produto
+      </button>
+
+      {(selectedProduct || isCreating) && (
         <div className="mt-8 p-6 bg-white shadow rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Editar Produtos</h2>
+          <h2 className="text-2xl font-semibold mb-4">{isCreating ? 'Criar Produto' : 'Editar Produto'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-gray-700">Nome:</label>
@@ -190,11 +221,14 @@ const Admin = () => {
                 type="submit"
                 className="bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-500 transition"
               >
-                Salvar
+                {isCreating ? 'Criar' : 'Salvar'}
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedProduct(null)}
+                onClick={() => {
+                  setSelectedProduct(null);
+                  setIsCreating(false);
+                }}
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
               >
                 Cancelar
