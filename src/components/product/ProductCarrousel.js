@@ -14,7 +14,7 @@ const ProductCarrousel = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/products")
+    fetch("https://pic-jgferri-store-back.onrender.com/products")
       .then((response) => response.json())
       .then((data) => {
         data.sort(function (x, y) {

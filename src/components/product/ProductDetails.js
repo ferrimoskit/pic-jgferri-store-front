@@ -8,7 +8,7 @@ const ProductDetails = () => {
     const[product, setProduct] = useState({})
     
     useEffect(()=>{
-        fetch(`http://localhost:8080/products/${id}`)
+        fetch(`https://pic-jgferri-store-back.onrender.com/products/${id}`)
         .then((response)=> response.json())
         .then(data=>setProduct(data))
         .catch(error => console.error(error))

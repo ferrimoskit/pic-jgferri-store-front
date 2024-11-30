@@ -19,7 +19,7 @@ const Admin = () => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/products', {
+        const response = await fetch('https://pic-jgferri-store-back.onrender.com/products', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -70,8 +70,8 @@ const Admin = () => {
     try {
       const token = localStorage.getItem('token');
       const url = isCreating
-        ? 'http://localhost:8080/products' // POST for creating new product
-        : `http://localhost:8080/products/${formData.id}`; // PUT for updating existing product
+        ? 'https://pic-jgferri-store-back.onrender.com/products' // POST for creating new product
+        : `https://pic-jgferri-store-back.onrender.com/products/${formData.id}`; // PUT for updating existing product
 
       const method = isCreating ? 'POST' : 'PUT';
       const response = await fetch(url, {
@@ -90,7 +90,7 @@ const Admin = () => {
       setIsCreating(false);
 
       // Refresh the product list
-      const refreshedResponse = await fetch('http://localhost:8080/products', {
+      const refreshedResponse = await fetch('https://pic-jgferri-store-back.onrender.com/products', {
         headers: {
           Authorization: `Bearer ${token}`
         }
