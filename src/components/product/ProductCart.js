@@ -1,5 +1,6 @@
 import React from "react";
 import { useCart } from "../cart/CartProvider";
+import { Link } from "react-router-dom";
 
 const ProductCart = (cartItem) => {
   const { dispatch } = useCart();
@@ -7,11 +8,13 @@ const ProductCart = (cartItem) => {
   return (
     <div className="shadow-lg w-1/2 max-h-[16%] flex flex-row overflow-hidden background-white rounded-xl m-auto mt-16">
       <div>
+        <Link to={`/product/${cartItem.cartItem.id}`}>
         <img
           src={cartItem.cartItem.picture}
           alt={cartItem.name}
           className=" h-36 w-36 object-cover p-2 m-auto rounded-xl"
         />
+         </Link>
       </div>
       <div className="flex flex-col w-full">
         <p className="text-3xl pt-2">{cartItem.cartItem.name}</p>
