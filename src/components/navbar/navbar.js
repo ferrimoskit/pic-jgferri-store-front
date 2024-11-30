@@ -30,13 +30,21 @@ const Navbar = () => {
           Carrinho
         </Link>
         {token ? (
-          <button
-            onClick={handleLogout}
-            className="text-lg text-gray-800 hover:text-gray-600"
-            aria-label="Logout"
-          >
-            Sair
-          </button>
+          <>
+            <Link
+              to="/admin"
+              className="text-lg text-gray-800 hover:text-gray-600"
+            >
+              Painel
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="text-lg text-gray-800 hover:text-gray-600"
+              aria-label="Logout"
+            >
+              Sair
+            </button>
+          </>
         ) : (
           <Link
             to="/login"
